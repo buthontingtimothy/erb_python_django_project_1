@@ -3,7 +3,9 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
+    print(f'request: {request}, request.path: {request.path}')
     return render(request, 'pages/index.html')
 
 def about(request):
+    print(f'request: {request}, request.path: {request.path}')
     return render(request, 'pages/about.html')
