@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,14 +39,20 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 ]
+APPLICATION_APPS = [
+    'pages.apps.PagesConfig',
+    'doctors.apps.DoctorsConfig',
+    'listings.apps.ListingsConfig',
+]
+THIRD_PARTY_APPS = [
+    "debug_toolbar",
+]
+INSTALLED_APPS = DJANGO_APPS + APPLICATION_APPS + THIRD_PARTY_APPS
 
-APPLICATION_APPS = ['pages.apps.PagesConfig',
-                    'doctors.apps.DoctorsConfig',
-                    'listings.apps.ListingsConfig']
-INSTALLED_APPS = DJANGO_APPS + APPLICATION_APPS
-
-MIDDLEWARE = [
+# Middleware definition
+DJANGO_MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,6 +61,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+THIRD_PARTY_MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+MIDDLEWARE = DJANGO_MIDDLEWARE + THIRD_PARTY_MIDDLEWARE
 
 ROOT_URLCONF = 'config.urls'
 
@@ -85,7 +94,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'clinic',
         'USER': 'postgres',
-        'PASSWORD': 'apple',
+        'PASSWORD': os.getenv('DATABASES_DEFAULT_PASSWORD'),
         'HOST': 'localhost',
         'PORT': 5432,
     }
@@ -137,3 +146,11 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+# Interal IPS for django debug tool
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

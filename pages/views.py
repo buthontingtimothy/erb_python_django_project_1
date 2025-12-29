@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+# from django.http import HttpResponse
+from listings.models import Listing
 
 # Create your views here.
 def index(request):
-    print(f'request: {request}, request.path: {request.path}')
-    return render(request, 'pages/index.html')
+    listings = Listing.objects.all()
+    context = {"listings": listings}
+    return render(request, 'pages/index.html', context)
 
 def about(request):
-    print(f'request: {request}, request.path: {request.path}')
+    # print(f'request: {request}, request.path: {request.path}')
     return render(request, 'pages/about.html')
