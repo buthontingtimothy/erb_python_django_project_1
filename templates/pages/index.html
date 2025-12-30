@@ -109,10 +109,10 @@
           <div class="card-img-overlay"></div>
           <div class="card-body">
             <div class="listing-heading text-center">
-              <h4 class="text-primary">{{listing.title}}</h4>
+              <h4 class="text-primary">{{listing.title|capfirst}}</h4>
               <p>
                 <i class="fas fa-map-marker text-secondary"></i>
-                {{listing.district}}
+                {{listing.district|capfirst}}
               </p>
             </div>
             <hr />
@@ -125,20 +125,21 @@
             </div>
             <div class="row py-2 text-secondary">
               <div class="col-6">
-                <i class="fas fa-bed"></i> Rooms: {{listing.rooms}}
+                <i class="fas fa-bed"></i> Rooms:
+                {{listing.rooms|apnumber|capfirst}}
               </div>
               <div class="col-6"><i class="fas fa-bath"></i> Bathrooms</div>
             </div>
             <hr />
             <div class="row py-2 text-secondary">
               <div class="col-12">
-                <i class="fas fa-user"></i> {{listing.doctor.name}}
+                <i class="fas fa-user"></i> {{listing.doctor.name|capfirst}}
               </div>
             </div>
             <div class="row text-secondary pb-2">
               <div class="col-12">
                 <i class="fas fa-clock"></i>
-                Posted on {{listing.list_date|timesince}}
+                Posted on {{listing.list_date|timesince}} ago
               </div>
             </div>
             <hr />
