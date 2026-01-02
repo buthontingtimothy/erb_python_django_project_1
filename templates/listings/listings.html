@@ -37,8 +37,9 @@
 <!-- Listings -->
 <section id="listings" class="py-4">
   <div class="container">
+    <!-- listings result -->
     <div class="row">
-      <!-- Listing 1 -->
+      <!-- Check if any record exist-->
       {% if listings %}
       <!-- for loop listings data -->
       {% for listing in listings %}
@@ -90,7 +91,7 @@
       {% endif %}
     
     </div>
-
+    <!-- pagination-->
     <div class="row">
       <div class="col-md-12">
         {% if listings.has_other_pages %}
