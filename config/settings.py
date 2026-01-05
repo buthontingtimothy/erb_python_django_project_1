@@ -48,6 +48,7 @@ APPLICATION_APPS = [
     'doctors.apps.DoctorsConfig',
     'listings.apps.ListingsConfig',
     'accounts.apps.AccountsConfig',
+    'contacts.apps.ContactsConfig',
 ]
 THIRD_PARTY_APPS = [
     "debug_toolbar",
