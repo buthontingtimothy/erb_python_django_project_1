@@ -43,7 +43,8 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Clinic</th>
-              <th></th>
+              <th scope="col">Message Preview</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -51,6 +52,7 @@
             <tr>
               <td>{{contact.listing_id}}</td>
               <td>{{contact.listing | title}}</td>
+              <td>{{contact.message | truncatechars:20}}</td>
               <td>
                 <a 
                   class="btn btn-light" 
@@ -61,12 +63,12 @@
                   data-toggle="modal"
                   data-target="#deleteConfirmModal"
                   data-id={{contact.id}}
-                  >Delete Listing
+                  >Delete Message
                 </button>
                 <a 
                   href={% url 'contacts:edit_contact' contact.id %} 
                   class="btn btn-success"
-                >Edit message</a>
+                >Edit Message</a>
               </td>
             </tr>
             {% endfor %}
