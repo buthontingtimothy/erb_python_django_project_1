@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Contact
 from django.contrib import messages
 from .forms import ContactForm
+from django.core.mail import send_mail
 
 # Create your views here.
 def contact(request):
@@ -13,6 +14,7 @@ def contact(request):
         phone = request.POST['phone']
         message = request.POST['message']
         user_id = request.POST['user_id']
+        doctor_email = request.POST['doctor_email']
         if request.user.is_authenticated:
             has_contacted = Contact.objects.all().filter(listing_id=listing_id, user_id=user_id)
             if has_contacted:
@@ -20,12 +22,35 @@ def contact(request):
                 return redirect('listings:listing', listing_id=listing_id)
         contact = Contact(listing=listing, listing_id=listing_id, name=name, email=email, phone=phone, message=message, user_id=user_id)
         contact.save()
+        ## send email from system to doctor
+        send_mail(
+            #@ title of email
+            'Clinic Inquiry',
+            #@ message
+            'There has been an inqury for ' + listing + '. Sign into the admin panel for more info.',
+            #@ sender
+            'butgcp0@gmail.com',
+            #@ receiver
+            [doctor_email],
+            fail_silently=False,)
+        ## end of send email from system to doctor
+        ## send email from system to user
+        send_mail(
+            #@ title of email
+            'Inquiry Receipt',
+            #@ message 
+            'Your inqury for ' + listing + ' is received, a clinic representative will get back to you soon.',
+            #@ sender
+            'butgcp0@gmail.com',
+            #@ receiver
+            [email],
+            fail_silently=False,)
+        ## end of send email from system to user
         messages.success(request, 'Your request has been submitted, a clinic representative will get back to you soon.')
     return redirect('listings:listing', listing_id=listing_id)
 
 def delete_contact(request, contact_id):
-    contact = get_object_or_404(pk=contact_id, klass=Contact)
-    print(f"delete contact : {contact}")
+    contact = get_object_or_404(Contact, pk=contact_id)
     contact.delete()
     return redirect('accounts:dashboard')
 

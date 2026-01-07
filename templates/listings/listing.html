@@ -4,6 +4,8 @@
 {% load static %}
 <!-- load humanize -->
 {% load humanize %}
+<!-- listing title -->
+{% block title %} | {{listing.title|title}} {% endblock title %}
 <!-- load block content -->
 {% block content %}
 <section id="showcase-inner" class="py-5 text-white">
@@ -142,6 +144,34 @@
           </div>
         </div>
 
+        <!-- Professions -->
+        <div class="row mb-5">
+          <h4 class="mr-3 text-secondary">Professions:</h4>
+          {% if listing.professions.all %}
+            <ul>
+              {% for profession in listing.professions.all %}
+                <li class="mr-3"><h4>{{profession.name | title}}</h4></li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-secondary">No Professions Listed.</p>
+          {% endif %}
+        </div>
+
+        <!-- Services -->
+        <div class="row mb-5">
+          <h4 class="mr-3 text-secondary">Services:</h4>
+          {% if listing.services.all %}
+            <ul>
+              {% for service_tag in listing.services.all %}
+                <li class="mr-3"><h4>{{service_tag.name | title}}</h4></li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-secondary">No Services.</p>
+          {% endif %}
+        </div>
+
         <!-- Description -->
         <div class="row mb-5">
           <div class="col-md-12">{{listing.description|linebreaks}}
@@ -184,6 +214,7 @@
         <form action={% url 'contacts:contact' %} method="POST">
           {% csrf_token %}
           <input type="hidden" name="listing_id" value="{{listing.id}}"/>
+          <input type="hidden" name="doctor_email" value="{{listing.doctor.email}}">
           {% if user.is_authenticated %}
           <input type="hidden" name="user_id" value="{{user.id}}"/>
           {% else %}
